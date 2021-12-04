@@ -33,7 +33,7 @@ export const createClient = (authUser: AuthUser) => {
     const token = await authUser.getIdToken();
     return {
       ...headers,
-      authorization: `Bearer ${token}`,
+      authorization: token,
     };
   });
 

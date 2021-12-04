@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { AuthAction, withAuthUser } from "next-firebase-auth";
-import { loginAnonymously } from "~/app/auth";
+import { login } from "~/app/auth";
 import { toast } from "react-toastify";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/dist/client/router";
@@ -31,7 +31,8 @@ const DashBoard: NextPage = () => {
             <button
               className="btn btn-ghost btn-outline gap-6"
               onClick={async () => {
-                toast.error("Not Implemented");
+                await login("google");
+                toast.success("ログインしました");
               }}
             >
               <Icon icon="logos:google-icon" width="16" height="16" />
@@ -56,9 +57,9 @@ const DashBoard: NextPage = () => {
               Sign in with Twitter
             </button>
             <button
-              className="btn gap-6"
+              className="btn btn-ghost btn-outline gap-6"
               onClick={async () => {
-                await loginAnonymously();
+                await login("anonymous");
                 toast.success("ログインしました");
               }}
             >

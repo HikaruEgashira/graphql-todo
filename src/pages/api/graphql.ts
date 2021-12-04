@@ -20,19 +20,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const token = req.headers["authorization"]?.split(" ")[1];
-  if (!token) return res.status(401).send("Unauthorized");
-
-  const user = await verifyIdToken(token);
-  const context: Context = {
-    token,
-    user,
-  };
-
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
-    context: () => context,
+    context: async (): Promise<Context> => {
+      try {
+        const token = req.headers["authorization"];
+        if (!token) return null;
+        const user = await verifyIdToken(token);
+        return { user };
+      } catch (error) {
+        return null;
+      }
+    },
     plugins: [
       ApolloServerPluginLandingPageGraphQLPlayground({
         settings: {

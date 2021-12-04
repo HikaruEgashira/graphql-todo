@@ -2,14 +2,16 @@ import { QueryResolvers } from "./gen";
 import { Context } from "./type";
 
 export const Query: QueryResolvers<Context> = {
-  async todo(_parent, { id }, context, _info) {
-    if (!context.user) throw new Error("Not authenticated");
-
-    return { id, title: `hello ${context.user.claims.provider_id}` };
+  user: async (_parent, _args, ctx) => {
+    if (!ctx) return null;
+    return ctx.user.id;
   },
-  async todos(_parent, _args, context, _info) {
-    if (!context.user) throw new Error("Not authenticated");
-
-    return [{ id: "ok", title: `hello ${context.user.claims.provider_id}` }];
+  todo: async (_parent, { id }, ctx, _info) => {
+    if (!ctx) throw new Error("Not authenticated");
+    return { id, title: `ユーザーのtodoを取得します` };
+  },
+  todos: async (_parent, _args, ctx, _info) => {
+    if (!ctx) throw new Error("Not authenticated");
+    return [{ id: "ok", title: `ユーザーのtodoを取得します` }];
   },
 };

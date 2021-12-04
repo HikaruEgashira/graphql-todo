@@ -1,6 +1,20 @@
-import { getAuth, signInAnonymously, UserCredential } from "firebase/auth";
+import {
+  getAuth,
+  signInAnonymously,
+  UserCredential,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 
-export async function loginAnonymously(): Promise<UserCredential> {
+export type Provider = "google" | "anonymous";
+
+export async function login(providerName: Provider): Promise<UserCredential> {
   const auth = getAuth();
-  return await signInAnonymously(auth);
+  switch (providerName) {
+    case "google":
+      const provider = new GoogleAuthProvider();
+      return signInWithPopup(auth, provider);
+    case "anonymous":
+      return signInAnonymously(auth);
+  }
 }

@@ -15,3 +15,8 @@
 ## graphql playground
 
 - how to login : <https://docs.wellline.com/wellline-recipes/timeline-service-graphql-api/using-the-graphql-playground-1>
+
+```json
+// add authorization to http headers
+{"authorization":"eyJhxxxxxxxxxxxxxxxxxxxxxxxxx"}
+```
