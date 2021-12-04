@@ -32,7 +32,7 @@ const Home: NextPage = () => {
           </h1>
           <p>ミニマリストのためのサブスク管理</p>
         </div>
-        <div className="card shadow bg-base-200 text-base-content">
+        <div className="card shadow bg-base-100 text-base-content">
           <div className="card-body gap-3">
             <h2 className="card-title">
               SNSでアカウントを作成できます（無料）
