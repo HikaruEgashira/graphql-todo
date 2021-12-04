@@ -11,3 +11,7 @@
 - [bff](./src/bff/README.md)
 - [store](./src/store/README.md)
 - [styles](./src/styles/README.md)
+
+## graphql playground
+
+- how to login : <https://docs.wellline.com/wellline-recipes/timeline-service-graphql-api/using-the-graphql-playground-1>

@@ -1,0 +1,17 @@
+type Query {
+  todo(id: String!): Todo
+  todos: [Todo!]!
+}
+
+type Mutation {
+  dummy: Response
+}
+
+type Todo {
+  id: String!
+  title: String!
+}
+
+type Response {
+  error: Boolean!
+}
