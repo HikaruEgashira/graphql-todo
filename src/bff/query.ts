@@ -1,5 +1,5 @@
-import { QueryResolvers } from "./gen";
-import { Context } from "./type";
+import type { QueryResolvers } from "./gen";
+import type { Context } from "./type";
 
 export const Query: QueryResolvers<Context> = {
   user: async (_parent, _args, ctx) => {

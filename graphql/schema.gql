@@ -5,14 +5,30 @@ type Query {
 }
 
 type Mutation {
+  addTodo(id: ID!, title: String!): Response
+  updateTodo(id: ID!, title: String!): Response
+  deleteTodo(id: ID!): Response
   dummy: Response
 }
 
 type Todo {
-  id: String!
+  id: ID!
   title: String!
 }
 
-type Response {
-  error: Boolean!
+union Response = SuccessResponse | ErrorResponse
+
+type SuccessResponse {
+  result: Result
+}
+
+type ErrorResponse {
+  result: Result
+  status: Int
+  message: String
+}
+
+enum Result {
+  Success
+  Error
 }
