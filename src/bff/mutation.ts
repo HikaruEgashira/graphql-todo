@@ -1,25 +1,53 @@
-import { MutationResolvers, Result } from "./gen";
+import type { MutationResolvers } from "./gen";
 import type { Context } from "./type";
+import { addTodo, removeTodo, todos, users } from "./ogm";
+import { get, remove, set, update } from "typesaurus";
 
 export const Mutation: MutationResolvers<Context> = {
-  addTodo: async (_parent, _args, context, _info) => {
-    if (!context) return { result: Result.Error };
+  createUser: async (_parent, _args, ctx, _info) => {
+    if (!ctx?.user?.id || !ctx.user.email) throw new Error("Not authenticated");
+    const { id: userId, email } = ctx.user;
 
-    return { result: Result.Error };
+    await set(users, userId, { email: email });
+
+    return { message: "User created" };
   },
-  deleteTodo: async (_parent, _args, context, _info) => {
-    if (!context) return { result: Result.Error };
+  addTodo: async (_parent, args, ctx, _info) => {
+    if (!ctx?.user?.id) throw new Error("Not authenticated");
+    const userId = ctx.user.id;
 
-    return { result: Result.Error };
+    const todoRef = await addTodo(userId, {
+      title: args.title,
+      completed: false,
+    });
+
+    return { message: todoRef.id + " added" };
   },
-  updateTodo: async (_parent, _args, context, _info) => {
-    if (!context) return { result: Result.Error };
+  deleteTodo: async (_parent, args, ctx, _info) => {
+    if (!ctx?.user?.id) throw new Error("Not authenticated");
+    const userId = ctx.user.id;
 
-    return { result: Result.Error };
+    const todo = await get(todos(userId), args.id);
+    if (!todo?.ref) return null;
+
+    await removeTodo(userId, todo.ref); // referenceを消す
+    await remove(todo.ref); // todo本体も消す
+
+    return { message: todo.ref.id + " deleted" };
   },
-  dummy: async (_parent, _args, context, _info) => {
-    if (!context) return { result: Result.Error };
+  updateTodo: async (_parent, args, ctx, _info) => {
+    if (!ctx?.user?.id) throw new Error("Not authenticated");
+    const userId = ctx.user.id;
 
-    return { result: Result.Success };
+    await update(todos(userId), args.id, {
+      completed: args.completed ?? undefined,
+    });
+
+    return null;
+  },
+  dummy: async (_parent, _args, ctx, _info) => {
+    if (!ctx?.user?.id) throw new Error("Not authenticated");
+
+    return { message: "dummy" };
   },
 };

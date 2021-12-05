@@ -4,11 +4,8 @@ import { AuthAction, withAuthUser } from "next-firebase-auth";
 import { login } from "~/app/auth";
 import { toast } from "react-toastify";
 import { Icon } from "@iconify/react";
-import { useRouter } from "next/dist/client/router";
 
 const DashBoard: NextPage = () => {
-  const router = useRouter();
-
   return (
     <div data-theme="retro" className="text-primary-content bg-primary">
       <Head>

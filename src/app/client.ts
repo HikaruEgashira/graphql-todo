@@ -2,38 +2,43 @@ import {
   ApolloClient,
   createHttpLink,
   from,
-  gql,
   InMemoryCache,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { AuthUser } from "next-firebase-auth";
+import { getAuth, User } from "firebase/auth";
 
 const cache = new InMemoryCache();
 /**
  * init state
  */
-cache.writeQuery({
-  query: gql`
-    query currentUser {
-      id
-    }
-  `,
-  data: {
-    id: "",
-  },
-});
+// cache.writeQuery({
+//   query: gql`
+//     query currentUser {
+//       id
+//     }
+//   `,
+//   data: {
+//     id: "",
+//   },
+// });
 
-export const createClient = (authUser: AuthUser) => {
+export const createClient = () => {
   const httpLink = createHttpLink({
     uri: `api/graphql`,
     credentials: "include",
   });
 
   const authLink = setContext(async (_operation, { headers }) => {
-    const token = await authUser.getIdToken();
+    const user = await getUser();
+    if (!user) return { headers };
+
+    const token = await user.getIdToken();
+
     return {
-      ...headers,
-      authorization: token,
+      headers: {
+        ...headers,
+        authorization: token,
+      },
     };
   });
 
@@ -42,3 +47,10 @@ export const createClient = (authUser: AuthUser) => {
     cache,
   });
 };
+
+async function getUser() {
+  const auth = getAuth();
+  return await new Promise<User | null>((resolve) =>
+    auth.onAuthStateChanged(resolve)
+  );
+}

@@ -2,9 +2,11 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { AuthAction, useAuthUser, withAuthUser } from "next-firebase-auth";
 import { toast } from "react-toastify";
+import { useTodosQuery } from "~/hooks";
 
 const DashBoard: NextPage = () => {
   const AuthUser = useAuthUser();
+  const { data: todoQuery } = useTodosQuery();
 
   return (
     <div data-theme="retro" className="bg-base-100 text-base-content">
@@ -23,6 +25,13 @@ const DashBoard: NextPage = () => {
 
       <main className="container mx-auto flex flex-col md:flex-row h-screen w-screen items-center justify-evenly">
         hello! {AuthUser.id}
+        <ul>
+          {todoQuery?.todos.map((todo) => (
+            <li key={todo.id}>
+              {todo.id} {todo.title}
+            </li>
+          ))}
+        </ul>
         <button
           className="btn"
           onClick={async () => {

@@ -3,7 +3,7 @@ import Head from "next/head";
 import { Icon } from "@iconify/react";
 import { login } from "~/app/auth";
 import { AuthAction, withAuthUser } from "next-firebase-auth";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
 const Home: NextPage = () => {

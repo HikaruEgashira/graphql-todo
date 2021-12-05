@@ -5,8 +5,9 @@ type Query {
 }
 
 type Mutation {
-  addTodo(id: ID!, title: String!): Response
-  updateTodo(id: ID!, title: String!): Response
+  createUser: Response
+  addTodo(title: String!): Response
+  updateTodo(id: ID!, title: String, completed: Boolean): Response
   deleteTodo(id: ID!): Response
   dummy: Response
 }
@@ -14,21 +15,14 @@ type Mutation {
 type Todo {
   id: ID!
   title: String!
+  completed: Boolean!
 }
 
-union Response = SuccessResponse | ErrorResponse
-
-type SuccessResponse {
-  result: Result
+type User {
+  id: ID!
+  todos: [Todo!]!
 }
 
-type ErrorResponse {
-  result: Result
-  status: Int
-  message: String
-}
-
-enum Result {
-  Success
-  Error
+type Response {
+  message: String!
 }

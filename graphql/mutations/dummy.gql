@@ -1,10 +1,5 @@
 mutation dummy {
   dummy {
-    ... on SuccessResponse {
-      result
-    }
-    ... on ErrorResponse {
-      result
-    }
+    message
   }
 }

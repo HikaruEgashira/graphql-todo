@@ -4,14 +4,12 @@ import type { AppProps } from "next/app";
 import { ApolloProvider } from "@apollo/client";
 import { createClient } from "~/app/client";
 import { initAuth } from "~/service/auth";
-import { useAuthUser } from "next-firebase-auth";
 import { ToastContainer } from "react-toastify";
 
 initAuth();
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const authUser = useAuthUser();
-  const client = createClient(authUser);
+  const client = createClient();
 
   return (
     <ApolloProvider client={client}>

@@ -22,7 +22,8 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-firebase-hooks": "^4.0.1",
-    "react-toastify": "^8.1.0"
+    "react-toastify": "^8.1.0",
+    "typesaurus": "^7.2.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.3.0",
