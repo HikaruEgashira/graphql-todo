@@ -1,12 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { AuthAction, useAuthUser, withAuthUser } from "next-firebase-auth";
 import { toast } from "react-toastify";
 import { useTodosQuery } from "~/hooks";
 import { useState } from "react";
+import { signOut } from "~/app/auth";
 
 const DashBoard: NextPage = () => {
-  const AuthUser = useAuthUser();
   const { data: todoQuery } = useTodosQuery();
   const [value, setValue] = useState("");
 
@@ -58,7 +57,7 @@ const DashBoard: NextPage = () => {
         <button
           className="btn"
           onClick={async () => {
-            await AuthUser.signOut();
+            await signOut();
             toast.success("ログアウトしました");
           }}
         >
@@ -69,6 +68,4 @@ const DashBoard: NextPage = () => {
   );
 };
 
-export default withAuthUser({
-  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
-})(DashBoard);
+export default DashBoard;

@@ -5,13 +5,13 @@ import { all, get } from "typesaurus";
 
 export const Query: QueryResolvers<Context> = {
   user: async (_parent, _args, ctx) => {
-    if (!ctx?.user?.id) throw new Error("Not authenticated");
-    return ctx.user.id;
+    if (!ctx?.id) throw new Error("Not authenticated");
+    return ctx.id;
   },
   todo: async (_parent, { id }, ctx, _info) => {
-    if (!ctx?.user?.id) throw new Error("Not authenticated");
+    if (!ctx?.id) throw new Error("Not authenticated");
 
-    const todo = await get(todos(ctx.user.id), id);
+    const todo = await get(todos(ctx.id), id);
     if (!todo) throw new Error("Todo not found");
 
     return {
@@ -20,9 +20,9 @@ export const Query: QueryResolvers<Context> = {
     };
   },
   todos: async (_parent, _args, ctx, _info) => {
-    if (!ctx?.user?.id) throw new Error("Not authenticated");
+    if (!ctx?.id) throw new Error("Not authenticated");
 
-    const user = await get(users, ctx.user.id);
+    const user = await get(users, ctx.id);
     if (!user) throw new Error("User not found");
 
     const todoDoc = await all(todos(user.ref.id));

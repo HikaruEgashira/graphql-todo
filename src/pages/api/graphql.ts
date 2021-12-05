@@ -2,11 +2,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import { ApolloServer } from "apollo-server-micro";
 import { resolvers } from "~/bff";
-import { initAuth } from "~/service/auth";
+import { initServer } from "~/bff/auth";
 // @ts-ignore
 import typeDefs from "graphql/schema.gql";
-import { verifyIdToken } from "next-firebase-auth";
 import type { Context } from "~/bff/type";
+import admin from "firebase-admin";
 
 export const config = {
   api: {
@@ -14,7 +14,7 @@ export const config = {
   },
 };
 
-initAuth();
+initServer();
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,8 +27,14 @@ export default async function handler(
       try {
         const token = req.headers["authorization"];
         if (!token) return null;
-        const user = await verifyIdToken(token);
-        return { user };
+        const user = await admin.auth().verifyIdToken(token);
+
+        return {
+          id: user.uid,
+          email: user.email ?? "",
+          name: user.name ?? "",
+          photoURL: user.picture ?? "",
+        };
       } catch (error) {
         return null;
       }

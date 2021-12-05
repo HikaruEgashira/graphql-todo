@@ -5,16 +5,16 @@ import { get, remove, set, update } from "typesaurus";
 
 export const Mutation: MutationResolvers<Context> = {
   createUser: async (_parent, _args, ctx, _info) => {
-    if (!ctx?.user?.id || !ctx.user.email) throw new Error("Not authenticated");
-    const { id: userId, email } = ctx.user;
+    if (!ctx?.id || !ctx.email) throw new Error("Not authenticated");
+    const { id: userId, email } = ctx;
 
     await set(users, userId, { email: email });
 
     return { message: "User created" };
   },
   addTodo: async (_parent, args, ctx, _info) => {
-    if (!ctx?.user?.id) throw new Error("Not authenticated");
-    const userId = ctx.user.id;
+    if (!ctx?.id) throw new Error("Not authenticated");
+    const userId = ctx.id;
 
     const todoRef = await addTodo(userId, {
       title: args.title,
@@ -24,8 +24,8 @@ export const Mutation: MutationResolvers<Context> = {
     return { message: todoRef.id + " added" };
   },
   deleteTodo: async (_parent, args, ctx, _info) => {
-    if (!ctx?.user?.id) throw new Error("Not authenticated");
-    const userId = ctx.user.id;
+    if (!ctx?.id) throw new Error("Not authenticated");
+    const userId = ctx.id;
 
     const todo = await get(todos(userId), args.id);
     if (!todo?.ref) return null;
@@ -36,8 +36,8 @@ export const Mutation: MutationResolvers<Context> = {
     return { message: todo.ref.id + " deleted" };
   },
   updateTodo: async (_parent, args, ctx, _info) => {
-    if (!ctx?.user?.id) throw new Error("Not authenticated");
-    const userId = ctx.user.id;
+    if (!ctx?.id) throw new Error("Not authenticated");
+    const userId = ctx.id;
 
     await update(todos(userId), args.id, {
       completed: args.completed ?? undefined,
@@ -46,7 +46,7 @@ export const Mutation: MutationResolvers<Context> = {
     return null;
   },
   dummy: async (_parent, _args, ctx, _info) => {
-    if (!ctx?.user?.id) throw new Error("Not authenticated");
+    if (!ctx?.id) throw new Error("Not authenticated");
 
     return { message: "dummy" };
   },

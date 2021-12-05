@@ -1,5 +1,6 @@
-import { AuthUser } from "next-firebase-auth";
-
 export type Context = {
-  user: AuthUser;
+  id: string;
+  name: string;
+  email: string;
+  photoURL: string;
 } | null;

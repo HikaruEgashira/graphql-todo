@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { AuthAction, withAuthUser } from "next-firebase-auth";
 import { login } from "~/app/auth";
 import { toast } from "react-toastify";
 import { Icon } from "@iconify/react";
@@ -71,6 +70,4 @@ const DashBoard: NextPage = () => {
   );
 };
 
-export default withAuthUser({
-  whenAuthed: AuthAction.REDIRECT_TO_APP,
-})(DashBoard);
+export default DashBoard;
