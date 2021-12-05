@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { login } from "~/app/auth";
+import { login } from "~/app/service/auth";
 import { toast } from "react-toastify";
 import { Icon } from "@iconify/react";
 

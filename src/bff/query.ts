@@ -1,6 +1,6 @@
 import type { QueryResolvers } from "./gen";
 import type { Context } from "./type";
-import { todos, users } from "./ogm";
+import { todos, users } from "./service/db";
 import { all, get } from "typesaurus";
 
 export const Query: QueryResolvers<Context> = {

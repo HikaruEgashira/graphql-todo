@@ -1,6 +1,6 @@
 import type { MutationResolvers } from "./gen";
 import type { Context } from "./type";
-import { addTodo, removeTodo, todos, users } from "./ogm";
+import { addTodo, removeTodo, todos, users } from "./service/db";
 import { get, remove, set, update } from "typesaurus";
 
 export const Mutation: MutationResolvers<Context> = {

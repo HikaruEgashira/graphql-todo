@@ -3,7 +3,7 @@ import Head from "next/head";
 import { toast } from "react-toastify";
 import { useTodosQuery } from "~/hooks";
 import { useState } from "react";
-import { signOut } from "~/app/auth";
+import { signOut } from "~/app/service/auth";
 
 const DashBoard: NextPage = () => {
   const { data: todoQuery } = useTodosQuery();

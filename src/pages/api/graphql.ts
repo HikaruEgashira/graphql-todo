@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import { ApolloServer } from "apollo-server-micro";
 import { resolvers } from "~/bff";
-import { initServer } from "~/bff/auth";
+import { initServer } from "~/bff/service/auth";
 // @ts-ignore
 import typeDefs from "graphql/schema.gql";
 import type { Context } from "~/bff/type";
